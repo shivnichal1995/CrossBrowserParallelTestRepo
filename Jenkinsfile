@@ -4,19 +4,33 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Code') {
 
             steps {
 
-                git 'https://github.com/yourname/selenium-cucumber-fw.git'
+                git 'https://github.com/shivnichal1995/CrossBrowserParallelTestRepo.git'
             }
         }
 
-        stage('Run Parallel Tests') {
+        stage('Parallel Cross Browser Tests') {
 
-            steps {
+            parallel {
 
-                sh 'mvn clean test'
+                stage('Chrome Tests') {
+
+                    steps {
+
+                        bat 'mvn clean test -Dbrowser=chrome'
+                    }
+                }
+
+                stage('Firefox Tests') {
+
+                    steps {
+
+                        bat 'mvn clean test -Dbrowser=firefox'
+                    }
+                }
             }
         }
     }
