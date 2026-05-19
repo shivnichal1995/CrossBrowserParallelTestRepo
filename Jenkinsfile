@@ -4,14 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-
-            steps {
-
-                git 'https://github.com/shivnichal1995/CrossBrowserParallelTestRepo.git'
-            }
-        }
-
         stage('Parallel Cross Browser Tests') {
 
             parallel {
@@ -39,10 +31,13 @@ pipeline {
 
         always {
 
-            junit '**/surefire-reports/*.xml'
+            junit allowEmptyResults: true,
+                   testResults:
+                   '**/surefire-reports/*.xml'
 
-            archiveArtifacts artifacts:
-                    'target/cucumber-report.html'
+            archiveArtifacts allowEmptyArchive: true,
+                             artifacts:
+                             'target/cucumber-report.html'
         }
     }
 }
